@@ -41,12 +41,32 @@
       <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.4.2.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.4.2\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.4.2.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.4.2\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.4.2.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.4.2\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Legacy, Version=2.4.2.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mongocsharpdriver.2.4.2\lib\net45\MongoDB.Driver.Legacy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\TweetSharp.2.3.1\lib\4.0\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,99 +80,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsConnectionInfos.cs" />
+    <Compile Include="clsLocalDB.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
-    <None Include="packages\log4net.2.0.7\log4net.2.0.7.nupkg" />
-    <None Include="packages\Newtonsoft.Json.5.0.6\Newtonsoft.Json.5.0.6.nupkg" />
-    <None Include="packages\TweetSharp.2.3.1\LICENSE.md" />
-    <None Include="packages\TweetSharp.2.3.1\README.md" />
-    <None Include="packages\TweetSharp.2.3.1\TweetSharp.2.3.1.nupkg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages\log4net.2.0.7\lib\net20-full\log4net.dll" />
-    <Content Include="packages\log4net.2.0.7\lib\net20-full\log4net.xml" />
-    <Content Include="packages\log4net.2.0.7\lib\net35-client\log4net.dll" />
-    <Content Include="packages\log4net.2.0.7\lib\net35-client\log4net.xml" />
-    <Content Include="packages\log4net.2.0.7\lib\net35-full\log4net.dll" />
-    <Content Include="packages\log4net.2.0.7\lib\net35-full\log4net.xml" />
-    <Content Include="packages\log4net.2.0.7\lib\net40-client\log4net.dll" />
-    <Content Include="packages\log4net.2.0.7\lib\net40-client\log4net.xml" />
-    <Content Include="packages\log4net.2.0.7\lib\net40-full\log4net.dll" />
-    <Content Include="packages\log4net.2.0.7\lib\net40-full\log4net.xml" />
-    <Content Include="packages\log4net.2.0.7\lib\net45-full\log4net.dll" />
-    <Content Include="packages\log4net.2.0.7\lib\net45-full\log4net.xml" />
-    <Content Include="packages\log4net.2.0.7\lib\netstandard1.3\log4net.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net20\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net20\Newtonsoft.Json.xml" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net35\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net35\Newtonsoft.Json.xml" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.xml" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.xml" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\netcore45\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\netcore45\Newtonsoft.Json.xml" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.xml" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll" />
-    <Content Include="packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\2.0\Hammock.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\2.0\Hammock.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\2.0\Newtonsoft.Json.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\2.0\Newtonsoft.Json.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\2.0\TweetSharp.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\2.0\TweetSharp.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\3.5\Hammock.ClientProfile.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\3.5\Hammock.ClientProfile.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\3.5\Newtonsoft.Json.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\3.5\Newtonsoft.Json.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\3.5\TweetSharp.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\3.5\TweetSharp.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\4.0\Hammock.ClientProfile.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\4.0\Hammock.ClientProfile.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\4.0\Newtonsoft.Json.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\4.0\Newtonsoft.Json.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\4.0\TweetSharp.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\4.0\TweetSharp.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\Hammock.WindowsPhone.Mango.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\Hammock.WindowsPhone.Mango.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\ICSharpCode.SharpZipLib.WindowsPhone.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\ICSharpCode.SharpZipLib.WindowsPhone.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\Newtonsoft.Json.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\Newtonsoft.Json.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\TweetSharp.WindowsPhone.Mango.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp71\TweetSharp.WindowsPhone.Mango.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\Hammock.WindowsPhone.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\Hammock.WindowsPhone.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\ICSharpCode.SharpZipLib.WindowsPhone.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\ICSharpCode.SharpZipLib.WindowsPhone.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\Newtonsoft.Json.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\Newtonsoft.Json.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\TweetSharp.WindowsPhone.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4-wp\TweetSharp.WindowsPhone.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\de\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\es\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\fr\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\Hammock.Silverlight.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\Hammock.Silverlight.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\ICSharpCode.SharpZipLib.Silverlight.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\ICSharpCode.SharpZipLib.Silverlight.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\it\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\ja\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\ko\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\Newtonsoft.Json.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\Newtonsoft.Json.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\ru\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\System.Xml.Linq.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\System.Xml.Linq.xml" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\TweetSharp.Silverlight.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\TweetSharp.Silverlight.pdb" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\zh-Hans\System.Xml.Linq.resources.dll" />
-    <Content Include="packages\TweetSharp.2.3.1\lib\sl4\zh-Hant\System.Xml.Linq.resources.dll" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
