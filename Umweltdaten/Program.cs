@@ -53,6 +53,25 @@ namespace Umweltdaten
                 MesswerteZusammenfassen(cstrStandortFlughafen, cstrMesswertBenzol, cstrFlughafenBaseFolder, "Benzol.csv");
                 logger.Info("Benzol: Ok");
             }
+            else if (args.Any(x => x.Contains("SummarizeAll")))
+            {
+                DateTime iVon = new DateTime(2017, 1, 1);
+                DateTime iBis = new DateTime(2017, 1, 2);
+                while(iBis<=DateTime.Today)
+                {
+                    clsLocalDB.SummarizeValues(AlleStandorte, AlleMesswerte, iVon, iBis);
+                    iVon = iVon.AddDays(1);
+                    iBis = iBis.AddDays(1);
+                }
+                iVon = new DateTime(2017, 1, 1);
+                iBis = new DateTime(2017, 2, 1);
+                while (iBis <= DateTime.Today)
+                {
+                    clsLocalDB.SummarizeValues(AlleStandorte, AlleMesswerte, iVon, iBis);
+                    iVon = iVon.AddMonths(1);
+                    iBis = iBis.AddMonths(1);
+                }
+            }
             else
             {
                 logger.Info("Application is working");
@@ -62,12 +81,20 @@ namespace Umweltdaten
                 logger.Info("Application finished");
                 if (DateTime.Now.Hour == 8)
                 {
-                    clsLocalDB.SummarizeYesterday(AlleStandorte, AlleMesswerte);
+                    DateTime iVon = DateTime.Today.Subtract(new TimeSpan(1, 0, 0, 0));
+                    DateTime iBis = DateTime.Today;
+                    clsLocalDB.SummarizeValues(AlleStandorte, AlleMesswerte, iVon, iBis);
                     if (DateTime.Now.Day == 1)
                     {
-                        clsLocalDB.SummarizeLastMonth(AlleStandorte, AlleMesswerte);
+                        iVon = (DateTime.Today.Month > 1) ? new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, 1) : new DateTime(DateTime.Today.Year - 1, 12, 1);
+                        iBis = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        clsLocalDB.SummarizeValues(AlleStandorte, AlleMesswerte, iVon, iBis);
                         if (DateTime.Now.Month == 1)
-                            clsLocalDB.SummarizeLastYear(AlleStandorte, AlleMesswerte);
+                        {
+                            iVon = new DateTime(DateTime.Today.Year - 1, 1, 1);
+                            iBis = new DateTime(DateTime.Today.Year, 1, 1);
+                            clsLocalDB.SummarizeValues(AlleStandorte, AlleMesswerte, iVon, iBis);
+                        }
                     }
                     TweetHeartBeat();
                 }

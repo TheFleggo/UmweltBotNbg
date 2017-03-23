@@ -119,89 +119,54 @@ namespace Umweltdaten
         }
 
 
-        internal static void SummarizeCustom(ObservableCollection<Standort> alleStandorte, ObservableCollection<Messwert> alleMesswerte, DateTime vVon, DateTime vBis)
+        internal static void SummarizeValues(ObservableCollection<Standort> alleStandorte, ObservableCollection<Messwert> alleMesswerte, DateTime vVon, DateTime vBis)
         {
             foreach (Standort iStandort in alleStandorte)
             {
                 foreach (Messwert iMesswert in alleMesswerte)
                 {
-                    var iMessungen = GetMessungen(iStandort, iMesswert, Zeitspanne.Custom, vVon, vBis);
+                    var iMessungen = GetMessungen(iStandort, iMesswert, vVon, vBis);
+                    if(iMessungen.Count > 0)
+                        ProduceCustomResults(vVon, vBis, iStandort, iMesswert, iMessungen);
                 }
             }
         }
-
-        internal static void SummarizeLastYear(ObservableCollection<Standort> alleStandorte, ObservableCollection<Messwert> alleMesswerte)
-        {
-            foreach (Standort iStandort in alleStandorte)
-            {
-                foreach (Messwert iMesswert in alleMesswerte)
-                {
-                    var iMessungen = GetMessungen(iStandort, iMesswert, Zeitspanne.LetztesJahr);
-                }
-            }
-        }
-
-        internal static void SummarizeLastMonth(ObservableCollection<Standort> alleStandorte, ObservableCollection<Messwert> alleMesswerte)
-        {
-            foreach (Standort iStandort in alleStandorte)
-            {
-                foreach (Messwert iMesswert in alleMesswerte)
-                {
-                    var iMessungen = GetMessungen(iStandort, iMesswert, Zeitspanne.LetzterMonat);
-                }
-            }
-        }
-
-        internal static void SummarizeYesterday(ObservableCollection<Standort> alleStandorte, ObservableCollection<Messwert> alleMesswerte)
-        {
-            foreach(Standort iStandort in alleStandorte)
-            {
-                foreach(Messwert iMesswert in alleMesswerte)
-                {
-                    var iMessungen = GetMessungen(iStandort, iMesswert, Zeitspanne.LetzterTag);
-                }
-            }
-        }
-
-        private static List<Messung> GetMessungen(Standort iStandort, Messwert iMesswert, Zeitspanne vZeitspanne, DateTime? vVon = null, DateTime? vBis = null)
-        {
-            switch (vZeitspanne)
-            {
-                case Zeitspanne.LetzterTag:
-                    vVon = DateTime.Today.Subtract(new TimeSpan(1, 0, 0, 0));
-                    vBis = DateTime.Today;
-                    break;
-                case Zeitspanne.LetzterMonat:
-                    vVon = (DateTime.Today.Month > 1) ? new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, 1) : new DateTime(DateTime.Today.Year - 1, 12, 1);
-                    vBis = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-                    break;
-
-                case Zeitspanne.LetztesJahr:
-                    vVon = new DateTime(DateTime.Today.Year - 1, 1, 1);
-                    vBis = new DateTime(DateTime.Today.Year, 1, 1);
-                    break;
-            }
-
+        
+        
+        private static List<Messung> GetMessungen(Standort vStandort, Messwert vMesswert, DateTime vVon, DateTime vBis)
+        {                  
             var builder = new QueryBuilder<Messung>();
             var query = Query.And(
-                builder.EQ(x => x.Standort.Name, iStandort.Name),
-                builder.EQ(x => x.Messwert.Bezeichnung, iMesswert.Bezeichnung),
+                builder.EQ(x => x.Standort.Name, vStandort.Name),
+                builder.EQ(x => x.Messwert.Bezeichnung, vMesswert.Bezeichnung),
                 builder.GTE(x => x.Zeitpunkt, vVon),
                 builder.LT(x => x.Zeitpunkt, vBis));
 
             return MongoDB.GetCollection<Messung>("Messung").Find(query).ToList();
         }
+
+        private static void ProduceCustomResults(DateTime vVon, DateTime vBis, Standort vStandort, Messwert vMesswert, List<Messung> vMessungen)
+        {
+            TimeSpan iDuration = vBis - vVon;
+            CalculatedResult iCalculatedResult = new CalculatedResult();
+            iCalculatedResult.AnzahlMessungen = vMessungen.Count;
+            iCalculatedResult.AnzahlGemesseneTage = vMessungen.GroupBy(x => x.Zeitpunkt.Date).ToList().Count;
+            iCalculatedResult.AnzahlUeberschreitungen = vMessungen.Where(x => x.Wert >= vMesswert.Grenze).Count();
+            iCalculatedResult.AnzahlUeberschritteneTage = vMessungen.Where(x => x.Wert >= vMesswert.Grenze).GroupBy(x => x.Zeitpunkt.Date).Count();
+            iCalculatedResult.Maximalwert = vMessungen.FirstOrDefault(x => x.Wert == vMessungen.Max(y => y.Wert));
+            iCalculatedResult.Minimalwert = vMessungen.FirstOrDefault(x => x.Wert == vMessungen.Min(y => y.Wert));
+            iCalculatedResult.Messwert = vMesswert;
+            iCalculatedResult.Standort = vStandort;
+            if (iDuration.TotalHours <= 24)
+                iCalculatedResult.Day = vVon.Day;
+            if (iDuration.TotalDays < 32)
+                iCalculatedResult.Month = vVon.Month;
+            iCalculatedResult.Year = vVon.Year;
+            SpeichereCalculatedResult(iCalculatedResult);
+        }
+
     }
-
-    enum Zeitspanne
-    {
-        LetzterTag,
-        LetzterMonat,
-        LetztesJahr,
-        Custom
-    }
-
-
+    
     public class Standort
     {
         [BsonId]
@@ -239,6 +204,8 @@ namespace Umweltdaten
         public int Day { get; set; }
         public int AnzahlMessungen { get; set; }
         public int AnzahlUeberschreitungen { get; set; }
+        public int AnzahlGemesseneTage { get; set; }
+        public int AnzahlUeberschritteneTage { get; set; }
 
     }
 }
